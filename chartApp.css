@@ -3,10 +3,8 @@ body {
 }
 
 #board {
-  width: 800px;
-  height: 400px; 
-  min-width: 400px;
-  max-width: 100%;
+  width: 500px;
+  height: 250px; 
   border: 1px solid black;
   background-color: #fff;
 }
