@@ -145,7 +145,7 @@ function normalize(num,arr2) {
 //This function draws the X and Y axes on the canvas
 
 function xYAxis() {
-    if(arr2.length !== 0){
+    if(chartValues.length !== 0){
         appCtx.beginPath();
         appCtx.moveTo(45,0);
         appCtx.lineTo(45,120);
