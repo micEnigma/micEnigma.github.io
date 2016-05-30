@@ -1,3 +1,4 @@
+
 // This code draws charts on an html5 canvas based on user data input
 
 // Declare global variables for canvas and context
@@ -24,15 +25,22 @@ function checkCompatibility() {
 
 // Accept user data input and display entries by the user
 
-function lastData() {
-    let lastLabel= document.getElementById('fm1').elements[5].value;
-    let lastValues= document.getElementById('fm1').elements[6].value;    
-    chartLabels.push(lastLabel);
-    chartValues.push(parseInt(lastValues));
-    valueTotal += parseInt(lastValues)
-    let lastEntered= 'Data entered: ' + 'Label: ' + chartLabels + ', ' + 'Value: ' + chartValues;       
-    document.getElementById('feedback').innerHTML = lastEntered;       
-}
+function enterData() {
+    let lastLabel= document.getElementById('Dlabel').value;
+    let lastValues= parseInt(document.getElementById('Dvalue').value);
+    // Disallow users from inputing negative numbers
+    if(lastValues < 0) {
+        alert('Negative values are not accepted in this version, think positively');
+    }
+    else {
+        chartLabels.push(lastLabel);
+        chartValues.push(lastValues);
+        valueTotal += lastValues;
+        let lastEntered= 'Data entered: ' + 'Label: ' + chartLabels + ', ' + 'Value: ' + chartValues;    
+        document.getElementById('feedback').innerHTML = lastEntered;       
+    }
+}    
+    
 
 // Delete the last data entered to correct errors
 
@@ -137,19 +145,22 @@ function normalize(num,arr2) {
 //This function draws the X and Y axes on the canvas
 
 function xYAxis() {
-    appCtx.beginPath();
-    appCtx.moveTo(45,0);
-    appCtx.lineTo(45,120);
-    appCtx.lineTo(300,120);
-    appCtx.strokeStyle = 'black';
-    appCtx.stroke();
-    appCtx.moveTo(45,0);
+    if(arr2.length !== 0){
+        appCtx.beginPath();
+        appCtx.moveTo(45,0);
+        appCtx.lineTo(45,120);
+        appCtx.lineTo(300,120);
+        appCtx.strokeStyle = 'black';
+        appCtx.stroke();
+        appCtx.moveTo(45,0);
+    }    
 }
 
 //Histogram
 
-function histogram(arr1, arr2){   
+function histogram(arr1, arr2){     
     xYAxis();
+        
     for(i=0; i<arr2.length; i++){        
 
         appCtx.fillStyle = 'rgba(' + Math.floor(255-128*i/arr2.length) +',' + Math.floor(128*i/arr2.length) + ',' + Math.floor(255*i/arr2.length) + ',1)';        
@@ -166,6 +177,7 @@ function histogram(arr1, arr2){
 
 function barChart(arr1, arr2){
     xYAxis();
+    
     for(i=0; i<arr2.length; i++){
         appCtx.fillStyle = 'rgba(' + Math.floor(255-128*i/arr2.length) +',' + Math.floor(128*i/arr2.length) + ',' + Math.floor(255*i/arr2.length) + ',1)';   
         appCtx.fillRect(55+45*i,120-normalize(i, arr2),30,normalize(i, arr2));
@@ -180,6 +192,7 @@ function barChart(arr1, arr2){
 
 function lineChart(arr1, arr2){
     xYAxis();    
+        
     appCtx.moveTo(45,120-normalize(0, arr2));
     for(i=0; i<arr2.length; i++){        
         appCtx.lineTo(45+40*i,120-normalize(i, arr2));
@@ -207,7 +220,10 @@ function tableHeading() {
 }
 
 function tableChart(arr1, arr2){
-    tableHeading();
+    if(arr2.length !== 0){
+        tableHeading();
+    }
+    
     for(i=0; i<arr2.length; i++){
      
         appCtx.strokeRect(45,15+15*i,120,15);
