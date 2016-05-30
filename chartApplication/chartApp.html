@@ -2,36 +2,36 @@
 <html>
   <head>
     <title>Chart Creating Application</title>
-    <link rel="stylesheet" href="chartApp.css"/>
+    <link rel='stylesheet' href='chartApp.css'/>
   </head>
 
-  <body onload="checkCompatibility();">
+  <body onload='checkCompatibility();'>
     <div>
-      <canvas id="board">
+      <canvas id='board'>
       This text is displayed if your browser does not support HTML5 Canvas.
       </canvas>  
     </div>
 
-    <script type="text/javascript" src="chartApp.js"></script> 
+    <script type='text/javascript' src='chartApp.js'></script> 
     <div>
-      <form id="fm1">
+      <form id='fm1'>
         <h3>Select a Chart type to draw:</h3>
-        <input type="radio" name="chart" value="Pie Chart" checked>Pie Chart
-        <input type="radio" name="chart" value="Histogram">Histogram
-        <input type="radio" name="chart" value="Bar Chart">Bar Chart
-        <input type="radio" name="chart" value="Line Chart">Line Chart
-        <input type="radio" name="chart" value="Table Chart">Table Chart
+        <input type='radio' name='chart' value='Pie Chart' checked>Pie Chart
+        <input type='radio' name='chart' value='Histogram'>Histogram
+        <input type='radio' name='chart' value='Bar Chart'>Bar Chart
+        <input type='radio' name='chart' value='Line Chart'>Line Chart
+        <input type='radio' name='chart' value='Table Chart'>Table Chart
         <h4>Enter a data label and a corresponding data value in the appropriate fields below:</h4>
-        Data Label:<input type="text" name="fname" value="label">
-        Data Value:<input type="number" name="fvalue" step="any" value=70>        
+        Data Label:<input id='Dlabel' type='text' name='fname' value='label'>
+        Data Value:<input id='Dvalue' type='number' name='fvalue' step='any' value=70>        
       </form>
       </br>
-      <button onclick="lastData()">Enter</button>
+      <button onclick='enterData()'>Enter</button>
       </br></br>
-      <div id="feedback"></div>
+      <div id='feedback'></div>
       </br></br>
-      <button onclick="drawSelected()">Draw Chart</button>
-      <button onclick="delData()">Delete Last Entry</button>
+      <button onclick='drawSelected()'>Draw Chart</button>
+      <button onclick='delData()'>Delete Last Entry</button>
 
     </div>
   </body>
