@@ -22,17 +22,17 @@
         <input type='radio' name='chart' value='Line Chart'>Line Chart
         <input type='radio' name='chart' value='Table Chart'>Table Chart
         <h4>Enter a data label and a corresponding data value in the appropriate fields below:</h4>
-        Data Label:<input id='Dlabel' type='text' name='fname' value='label'>
-        Data Value:<input id='Dvalue' type='number' name='fvalue' step='any' value=70>        
+        Data Label:&nbsp;<input id='Dlabel' type='text' name='fname' value='label'>&nbsp; &nbsp;
+        Data Value:&nbsp;<input id='Dvalue' type='number' name='fvalue' step='any' value=70>        
       </form>
       </br>
-      <button onclick='enterData()'>Enter</button>
+      <button onclick='enterData()'>Enter Data</button> &nbsp;
+      <button onclick='delData()'>Delete Last Entry</button>
       </br></br>
       <div id='feedback'></div>
       </br></br>
-      <button onclick='drawSelected()'>Draw Chart</button>
-      <button onclick='delData()'>Delete Last Entry</button>
-
+      <button onclick='drawSelected()'>Draw Chart</button> &nbsp;
+      <button onclick='clearCanvas()'>Clear Canvas</button>
     </div>
   </body>
 </html>
