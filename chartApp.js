@@ -75,6 +75,7 @@ function drawSelected(approveChart){
             // reset the arrays after drawing
             chartLabels = [];
             chartValues = [];
+            valueTotal = 0;
         }
     }
 }
