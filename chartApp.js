@@ -15,7 +15,12 @@ function checkCompatibility() {
     canvas = document.getElementById('board');    
     if (canvas.getContext) {
         // if browser is compatible get the 2d canvas ready
-        appCtx = canvas.getContext('2d');      
+        appCtx = canvas.getContext('2d');
+        // To avoid blurred lines
+        appCtx.translate(0.5, 0.5) 
+        // set the width and height of the canvas   
+        appCtx.canvas.width  = 600;
+        appCtx.canvas.height = 300;
     }
     else {
         alert('Your current browser is not compatible with this application. Please try a different one.');
@@ -129,25 +134,25 @@ function pieChart(arr1,arr2){
         appCtx.fillStyle = 'rgba(' + 127*(Math.floor(i+1)%3) +',' + 127*(Math.floor((i+1)/9)%3) + ',' + 127*(Math.floor((i+1)/3)%3) + ',.8)';
 
         appCtx.beginPath();
-        appCtx.arc(100, 75, 60, pieStart, pieEnd);
-        appCtx.lineTo(100,75);
-        //appCtx.stroke();
+        appCtx.arc(appCtx.canvas.width/3, appCtx.canvas.height/2, 120, pieStart, pieEnd);
+        appCtx.lineTo(appCtx.canvas.width/3, appCtx.canvas.height/2);
+        appCtx.stroke();
         appCtx.fill();
 
-        appCtx.font = '10px arial';        
-        appCtx.fillText(arr1[i], 200, 50+15*i);  
-        appCtx.fillText(chartValues[i], 250, 50+15*i);
+        appCtx.font = '20px arial';        
+        appCtx.fillText(arr1[i], 2*appCtx.canvas.width/3, 80+30*i);  
+        appCtx.fillText(chartValues[i], 5*appCtx.canvas.width/6, 80+30*i);
         appCtx.fillStyle = 'black';        
-        appCtx.fillText('Legend by colour: ', 200,20);
-        appCtx.fillText('Label', 200, 35); 
-        appCtx.fillText('Value', 250, 35);             
+        appCtx.fillText('Legend by colour: ', 2*appCtx.canvas.width/3,20);
+        appCtx.fillText('Label', 2*appCtx.canvas.width/3, 50); 
+        appCtx.fillText('Value', 5*appCtx.canvas.width/6, 50);             
     };
 }
 
 // Normalize function ensures that charts stay within the visible Y-axis
 
 function normalize(num,arr2) {
-    return 120*arr2[i]/Math.max.apply(Math,chartValues);
+    return 0.8*appCtx.canvas.height*arr2[i]/Math.max.apply(Math,chartValues);
 }
 
 //This function draws the X and Y axes on the canvas
@@ -155,12 +160,12 @@ function normalize(num,arr2) {
 function xYAxis() {
     if(chartValues.length !== 0){
         appCtx.beginPath();
-        appCtx.moveTo(45,0);
-        appCtx.lineTo(45,120);
-        appCtx.lineTo(300,120);
+        appCtx.moveTo(0.1*appCtx.canvas.width,0);
+        appCtx.lineTo(0.1*appCtx.canvas.width,0.8*appCtx.canvas.height);
+        appCtx.lineTo(appCtx.canvas.width,0.8*appCtx.canvas.height);
         appCtx.strokeStyle = 'black';
         appCtx.stroke();
-        appCtx.moveTo(45,0);
+        appCtx.moveTo(0.1*appCtx.canvas.width,0);
     }    
 }
 
@@ -170,12 +175,12 @@ function histogram(arr1, arr2){
     xYAxis();        
     for(i=0; i<arr2.length; i++){
         appCtx.fillStyle = 'rgba(' + 127*(Math.floor((i+1)/3)%3) +',' + 127*(Math.floor((i+1)/9)%3) + ',' + 127*(Math.floor(i+1)%3) + ',1)';  
-        appCtx.fillRect(45+40*i,120-normalize(i, arr2),40,normalize(i, arr2));        
-        appCtx.font = '7px arial';
-        appCtx.fillText(arr1[i], 45+40*i,130);
+        appCtx.fillRect(0.1*appCtx.canvas.width+53*i,0.8*appCtx.canvas.height-normalize(i, arr2),53,normalize(i, arr2));        
+        appCtx.font = '10px arial';
+        appCtx.fillText(arr1[i], 0.1*appCtx.canvas.width+53*i,10+0.8*appCtx.canvas.height);
         appCtx.fillStyle = 'black'
-        appCtx.fillText(arr2[i], 45+40*i,125-normalize(i, arr2));
-    };
+        appCtx.fillText(arr2[i], 0.1*appCtx.canvas.width+53*i,10+0.8*appCtx.canvas.height-normalize(i, arr2));
+    }
 }
 
 //Bar Chart
@@ -184,38 +189,38 @@ function barChart(arr1, arr2){
     xYAxis();    
     for(i=0; i<arr2.length; i++){
         appCtx.fillStyle = 'rgba(' + 127*(Math.floor((i+1)/3)%3) +',' + 127*(Math.floor((i+1)/9)%3) + ',' + 127*(Math.floor(i+1)%3) + ',1)';   
-        appCtx.fillRect(55+45*i,120-normalize(i, arr2),30,normalize(i, arr2));
-        appCtx.font = '7px arial';
-        appCtx.fillText(arr1[i], 55+45*i,130);
+        appCtx.fillRect(13+(0.1*appCtx.canvas.width)+53*i,0.8*appCtx.canvas.height-normalize(i, arr2),40,normalize(i, arr2));        
+        appCtx.font = '10px arial';
+        appCtx.fillText(arr1[i], 13+(0.1*appCtx.canvas.width)+53*i,10+0.8*appCtx.canvas.height);
         appCtx.fillStyle = 'black'
-        appCtx.fillText(arr2[i], 47+45*i,125-normalize(i, arr2));
-    };
+        appCtx.fillText(arr2[i], 13+0.1*appCtx.canvas.width+53*i,10+0.8*appCtx.canvas.height-normalize(i, arr2));
+    }
 }
 
 //Line Chart
 
 function lineChart(arr1, arr2){
     xYAxis();            
-    appCtx.moveTo(45,120-normalize(0, arr2));
+    appCtx.moveTo(0.1*appCtx.canvas.width,0.8*appCtx.canvas.height-normalize(0, arr2));
     for(i=0; i<arr2.length; i++){        
-        appCtx.lineTo(45+40*i,120-normalize(i, arr2));
+        appCtx.lineTo(0.1*appCtx.canvas.width+53*i,0.8*appCtx.canvas.height-normalize(i, arr2));
         appCtx.stroke();
         appCtx.strokeStyle= 'blue';
-        appCtx.font = '7px arial';
-        appCtx.fillText(arr1[i], 45+40*i,130);
-        appCtx.fillText(arr2[i], 46+40*i,128-normalize(i, arr2));
-    };
+        appCtx.font = '10px arial';
+        appCtx.fillText(arr1[i], 0.1*appCtx.canvas.width+53*i,10+0.8*appCtx.canvas.height);
+        appCtx.fillText(arr2[i], 0.1*appCtx.canvas.width+53*i,10+0.8*appCtx.canvas.height-normalize(i, arr2));
+    }
 }
 
 //Table of Values
 
 function tableHeading() {
     appCtx.beginPath();
-    appCtx.strokeRect(45, 0, 120, 15);
-    appCtx.font = '10px arial';
-    appCtx.fillText('Data Labels', 65, 10);
-    appCtx.strokeRect(165, 0, 120, 15);
-    appCtx.fillText('Data Values', 185, 10);
+    appCtx.strokeRect(0.1*appCtx.canvas.width, 5, 0.4*appCtx.canvas.width, 30);
+    appCtx.font = '20px arial';
+    appCtx.fillText('Data Labels', 20+0.1*appCtx.canvas.width, 25);
+    appCtx.strokeRect(0.5*appCtx.canvas.width, 5, 0.4*appCtx.canvas.width, 30);
+    appCtx.fillText('Data Values', 20+0.5*appCtx.canvas.width, 25);
     appCtx.strokeStyle = 'black';       
 }
 
@@ -225,11 +230,11 @@ function tableChart(arr1, arr2){
     }
     
     for(i=0; i<arr2.length; i++){     
-        appCtx.strokeRect(45,15+15*i,120,15);
-        appCtx.strokeRect(165,15+15*i,120,15);
-        appCtx.font = '10px arial';
-        appCtx.fillText(arr1[i], 65,25+15*i);
-        appCtx.fillText(arr2[i], 185,25+15*i);
+        appCtx.strokeRect(0.1*appCtx.canvas.width,35+25*i,0.4*appCtx.canvas.width,25);
+        appCtx.strokeRect(0.5*appCtx.canvas.width,35+25*i,0.4*appCtx.canvas.width,25);
+        appCtx.font = '20px arial';
+        appCtx.fillText(arr1[i], 20+0.1*appCtx.canvas.width,55+25*i);
+        appCtx.fillText(arr2[i], 20+0.5*appCtx.canvas.width,55+25*i);
     }
 }
 
@@ -238,6 +243,12 @@ function tableChart(arr1, arr2){
 function clearCanvas(approve) {
     approve = confirm('Are you sure you want to clear all drawings and start again?');
     if(approve) {
-        appCtx.clearRect(0, 0, 300, 150);
+        appCtx.clearRect(0, 0, appCtx.canvas.width, appCtx.canvas.width);
     }    
+}
+
+// Print Chart
+
+function printChart() {
+    window.location = canvas.toDataURL('image/png');
 }
